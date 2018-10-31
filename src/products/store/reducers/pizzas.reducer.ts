@@ -8,30 +8,14 @@ export interface PizzaState {
 }
 
 export const initialState: PizzaState = {
-  data: [
-    {
-      name: "Seaside Surfin'",
-      toppings: [
-        { id: 6, name: 'mushroom' },
-        { id: 7, name: 'olive' },
-        { id: 2, name: 'bacon' },
-        { id: 1, name: 'anchovy' },
-        { id: 8, name: 'onion' },
-        { id: 11, name: 'sweetcorn' },
-        { id: 9, name: 'pepper' },
-        { id: 5, name: 'mozzarella' },
-        { id: 3, name: 'basil' },
-      ],
-      id: 2,
-    },
-  ],
+  data: [],
   loaded: false,
   loading: false,
 };
 
 export function reducer(
   state = initialState,
-  action: fromPizzas.PizzasAction
+  action: fromPizzas.PizzasAction,
 ): PizzaState {
   switch (action.type) {
     case fromPizzas.LOAD_PIZZAS: {
@@ -39,7 +23,8 @@ export function reducer(
     }
 
     case fromPizzas.LOAD_PIZZAS_SUCCESS: {
-      return { ...state, loading: false, loaded: true };
+      const data = action.payload;
+      return { ...state, loading: false, loaded: true, data };
     }
 
     case fromPizzas.LOAD_PIZZAS_FAIL: {
