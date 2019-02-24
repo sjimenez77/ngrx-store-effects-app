@@ -41,12 +41,23 @@ export function reducer(
       return { ...state, loading: false, loaded: false };
     }
 
+    case fromPizzas.UPDATE_PIZZA_SUCCESS:
     case fromPizzas.CREATE_PIZZA_SUCCESS: {
       const pizza = action.payload;
       const entities = {
         ...state.entities,
         [pizza.id]: pizza,
       };
+
+      return {
+        ...state,
+        entities,
+      };
+    }
+
+    case fromPizzas.REMOVE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+      const { [pizza.id]: removed, ...entities } = state.entities;
 
       return {
         ...state,

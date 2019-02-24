@@ -38,7 +38,7 @@ export class ProductItemComponent implements OnInit {
       tap((pizza: Pizza = null) => {
         const pizzaExists = !!(pizza && pizza.toppings);
         const toppings = pizzaExists
-          ? pizza.toppings.map((topping) => topping.id)
+          ? pizza.toppings.map(topping => topping.id)
           : [];
         this.store.dispatch(new fromStore.VisualiseToppings(toppings));
       }),
@@ -55,11 +55,14 @@ export class ProductItemComponent implements OnInit {
     this.store.dispatch(new fromStore.CreatePizza(event));
   }
 
-  onUpdate(event: Pizza) {}
+  onUpdate(event: Pizza) {
+    this.store.dispatch(new fromStore.UpdatePizza(event));
+  }
 
   onRemove(event: Pizza) {
     const remove = window.confirm('Are you sure?');
     if (remove) {
+      this.store.dispatch(new fromStore.RemovePizza(event));
     }
   }
 }
