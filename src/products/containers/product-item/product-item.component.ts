@@ -10,6 +10,7 @@ import { Topping } from '../../models/topping.model';
 
 @Component({
   selector: 'product-item',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['product-item.component.scss'],
   template: `
     <div class="product-item">
@@ -38,7 +39,7 @@ export class ProductItemComponent implements OnInit {
       tap((pizza: Pizza = null) => {
         const pizzaExists = !!(pizza && pizza.toppings);
         const toppings = pizzaExists
-          ? pizza.toppings.map(topping => topping.id)
+          ? pizza.toppings.map((topping) => topping.id)
           : [];
         this.store.dispatch(new fromStore.VisualiseToppings(toppings));
       }),
