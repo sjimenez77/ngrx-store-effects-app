@@ -1,4 +1,4 @@
-import * as fromToppings from '../actions/topings.actions';
+import * as fromToppings from '../actions/toppings.actions';
 import { Topping } from '../../models/topping.model';
 
 export interface ToppingsState {
