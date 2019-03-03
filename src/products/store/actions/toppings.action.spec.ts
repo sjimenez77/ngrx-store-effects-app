@@ -1,4 +1,4 @@
-import * as fromToppings from './toppings.actions';
+import * as fromToppings from './toppings.action';
 
 describe('Toppings Actions', () => {
   describe('LoadToppings Actions', () => {
