@@ -113,7 +113,7 @@ describe('Pizzas Selectors', () => {
       store.dispatch(new fromActions.LoadPizzasSuccess(pizzas));
 
       store.dispatch({
-        type: 'ROUTER_NAVIGATION',
+        type: ROUTER_NAVIGATION,
         payload: {
           routerState: {
             url: '/products',
@@ -162,7 +162,7 @@ describe('Pizzas Selectors', () => {
       store.dispatch(new fromActions.VisualiseToppings([11, 9, 6]));
 
       store.dispatch({
-        type: 'ROUTER_NAVIGATION',
+        type: ROUTER_NAVIGATION,
         payload: {
           routerState: {
             url: '/products',
