@@ -3,8 +3,7 @@ import { CanActivate } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -22,12 +21,12 @@ export class PizzasGuard implements CanActivate {
 
   checkStore(): Observable<boolean> {
     return this.store.select(fromStore.getPizzasLoaded).pipe(
-      tap(loaded => {
+      tap((loaded) => {
         if (!loaded) {
           this.store.dispatch(new fromStore.LoadPizzas());
         }
       }),
-      filter(loaded => loaded), // Wait until loaded is available
+      filter((loaded) => loaded), // Wait until loaded is available
       take(1),
     );
   }

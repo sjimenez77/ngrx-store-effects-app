@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as fromRoot from '../../../store';
 import * as pizzasActions from '../actions/pizzas.action';
 import * as fromServices from '../../services';
+import { Pizza } from '../../models/pizza.model';
 
 @Injectable()
 export class PizzasEffects {
@@ -16,17 +17,19 @@ export class PizzasEffects {
   ) {}
 
   @Effect()
-  loadPizzas$ = this.actions$.ofType(pizzasActions.LOAD_PIZZAS).pipe(
+  loadPizzas$ = this.actions$.pipe(
+    ofType(pizzasActions.LOAD_PIZZAS),
     switchMap(() => {
       return this.pizzaService.getPizzas().pipe(
-        map((pizzas) => new pizzasActions.LoadPizzasSuccess(pizzas)),
+        map((pizzas) => new pizzasActions.LoadPizzasSuccess(<Pizza[]>pizzas)),
         catchError((error) => of(new pizzasActions.LoadPizzasFail(error))),
       );
     }),
   );
 
   @Effect()
-  createPizza$ = this.actions$.ofType(pizzasActions.CREATE_PIZZA).pipe(
+  createPizza$ = this.actions$.pipe(
+    ofType(pizzasActions.CREATE_PIZZA),
     map((action: pizzasActions.CreatePizza) => action.payload),
     switchMap((pizza) => {
       return this.pizzaService.createPizza(pizza).pipe(
@@ -37,20 +40,20 @@ export class PizzasEffects {
   );
 
   @Effect()
-  createPizzaSuccess$ = this.actions$
-    .ofType(pizzasActions.CREATE_PIZZA_SUCCESS)
-    .pipe(
-      map((action: pizzasActions.CreatePizzaSuccess) => action.payload),
-      map(
-        (pizza) =>
-          new fromRoot.Go({
-            path: ['/products', pizza.id],
-          }),
-      ),
-    );
+  createPizzaSuccess$ = this.actions$.pipe(
+    ofType(pizzasActions.CREATE_PIZZA_SUCCESS),
+    map((action: pizzasActions.CreatePizzaSuccess) => action.payload),
+    map(
+      (pizza) =>
+        new fromRoot.Go({
+          path: ['/products', pizza.id],
+        }),
+    ),
+  );
 
   @Effect()
-  updatePizza$ = this.actions$.ofType(pizzasActions.UPDATE_PIZZA).pipe(
+  updatePizza$ = this.actions$.pipe(
+    ofType(pizzasActions.UPDATE_PIZZA),
     map((action: pizzasActions.UpdatePizza) => action.payload),
     switchMap((pizza) => {
       return this.pizzaService.updatePizza(pizza).pipe(
@@ -61,7 +64,8 @@ export class PizzasEffects {
   );
 
   @Effect()
-  removePizza$ = this.actions$.ofType(pizzasActions.REMOVE_PIZZA).pipe(
+  removePizza$ = this.actions$.pipe(
+    ofType(pizzasActions.REMOVE_PIZZA),
     map((action: pizzasActions.RemovePizza) => action.payload),
     switchMap((pizza) => {
       return this.pizzaService.removePizza(pizza).pipe(
@@ -72,16 +76,15 @@ export class PizzasEffects {
   );
 
   @Effect()
-  handlePizzaSuccess$ = this.actions$
-    .ofType(
+  handlePizzaSuccess$ = this.actions$.pipe(
+    ofType(
       pizzasActions.UPDATE_PIZZA_SUCCESS,
       pizzasActions.REMOVE_PIZZA_SUCCESS,
-    )
-    .pipe(
-      map((pizza) => {
-        return new fromRoot.Go({
-          path: ['/products'],
-        });
-      }),
-    );
+    ),
+    map((pizza) => {
+      return new fromRoot.Go({
+        path: ['/products'],
+      });
+    }),
+  );
 }

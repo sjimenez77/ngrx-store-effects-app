@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map, tap, filter, take, switchMap } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -32,12 +32,12 @@ export class PizzaExistsGuard implements CanActivate {
 
   checkStore(): Observable<boolean> {
     return this.store.select(fromStore.getPizzasLoaded).pipe(
-      tap(loaded => {
+      tap((loaded) => {
         if (!loaded) {
           this.store.dispatch(new fromStore.LoadPizzas());
         }
       }),
-      filter(loaded => loaded), // Wait until loaded is available
+      filter((loaded) => loaded), // Wait until loaded is available
       take(1),
     );
   }

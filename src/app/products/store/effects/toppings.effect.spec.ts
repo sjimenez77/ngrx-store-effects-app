@@ -4,9 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 
 import { hot, cold } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { Observable, empty, of } from 'rxjs';
 
 import { ToppingsService } from '../../services/toppings.service';
 import * as fromEffects from './toppings.effect';
