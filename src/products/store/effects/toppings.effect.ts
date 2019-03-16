@@ -18,8 +18,8 @@ export class ToppingsEffects {
   loadToppings$ = this.actions$.ofType(toppingsActions.LOAD_TOPPINGS).pipe(
     switchMap(() => {
       return this.toppingsService.getToppings().pipe(
-        map(toppings => new toppingsActions.LoadToppingsSuccess(toppings)),
-        catchError(error => of(new toppingsActions.LoadToppingsFail(error))),
+        map((toppings) => new toppingsActions.LoadToppingsSuccess(toppings)),
+        catchError((error) => of(new toppingsActions.LoadToppingsFail(error))),
       );
     }),
   );
