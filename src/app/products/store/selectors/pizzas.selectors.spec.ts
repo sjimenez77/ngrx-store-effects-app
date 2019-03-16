@@ -4,7 +4,7 @@ import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { TestBed } from '@angular/core/testing';
 import { Pizza } from '../../models/pizza.model';
 
-import * as fromRoot from '../../../app/store';
+import * as fromRoot from '../../../store';
 import * as fromReducers from '../reducers/index';
 import * as fromActions from '../actions/index';
 import * as fromSelectors from '../selectors/pizzas.selectors';

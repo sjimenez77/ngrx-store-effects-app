@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import * as fromRoot from '../../../app/store/reducers';
+import * as fromRoot from '../../../store/reducers';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/toppings.selectors';
