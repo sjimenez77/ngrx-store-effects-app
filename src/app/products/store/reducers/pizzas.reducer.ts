@@ -1,17 +1,19 @@
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+
 import * as fromPizzas from '../actions/pizzas.action';
 import { Pizza } from '../../models/pizza.model';
 
-export interface PizzaState {
-  entities: { [id: number]: Pizza };
+export interface PizzaState extends EntityState<Pizza> {
   loaded: boolean;
   loading: boolean;
 }
 
-export const initialState: PizzaState = {
-  entities: {},
+export const adapter: EntityAdapter<Pizza> = createEntityAdapter<Pizza>();
+
+export const initialState: PizzaState = adapter.getInitialState({
   loaded: false,
   loading: false,
-};
+});
 
 export function reducer(
   state = initialState,
@@ -24,17 +26,8 @@ export function reducer(
 
     case fromPizzas.LOAD_PIZZAS_SUCCESS: {
       const pizzas = action.payload;
-
-      const entities = pizzas.reduce(
-        (entities: { [id: number]: Pizza }, pizza: Pizza) => {
-          return {
-            ...entities,
-            [pizza.id]: pizza,
-          };
-        },
-        { ...state.entities },
-      );
-      return { ...state, loading: false, loaded: true, entities };
+      state = { ...state, loading: false, loaded: true };
+      return adapter.addAll(pizzas, state);
     }
 
     case fromPizzas.LOAD_PIZZAS_FAIL: {
@@ -44,25 +37,12 @@ export function reducer(
     case fromPizzas.UPDATE_PIZZA_SUCCESS:
     case fromPizzas.CREATE_PIZZA_SUCCESS: {
       const pizza = action.payload;
-      const entities = {
-        ...state.entities,
-        [pizza.id]: pizza,
-      };
-
-      return {
-        ...state,
-        entities,
-      };
+      return adapter.upsertOne(pizza, state);
     }
 
     case fromPizzas.REMOVE_PIZZA_SUCCESS: {
       const pizza = action.payload;
-      const { [pizza.id]: removed, ...entities } = state.entities;
-
-      return {
-        ...state,
-        entities,
-      };
+      return adapter.removeOne(pizza.id, state);
     }
   }
 

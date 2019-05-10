@@ -74,6 +74,7 @@ describe('Pizzas Selectors', () => {
         .subscribe((value) => (result = value));
 
       expect(result).toEqual({
+        ids: [],
         entities: {},
         loaded: false,
         loading: false,
@@ -82,6 +83,7 @@ describe('Pizzas Selectors', () => {
       store.dispatch(new fromActions.LoadPizzasSuccess(pizzas));
 
       expect(result).toEqual({
+        ids: [1, 2, 3],
         entities,
         loaded: true,
         loading: false,

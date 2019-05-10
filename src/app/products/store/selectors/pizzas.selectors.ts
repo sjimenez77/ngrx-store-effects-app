@@ -7,6 +7,13 @@ import * as fromToppings from './toppings.selectors';
 
 import { Pizza } from '../../models/pizza.model';
 
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal,
+} = fromPizzas.adapter.getSelectors();
+
 export const getPizzaState = createSelector(
   fromFeature.getProductsState,
   (state: fromFeature.ProductsState) => state.pizzas,
@@ -14,7 +21,7 @@ export const getPizzaState = createSelector(
 
 export const getPizzasEntities = createSelector(
   getPizzaState,
-  fromPizzas.getPizzasEntities,
+  selectEntities,
 );
 
 export const getSelectedPizza = createSelector(
@@ -36,11 +43,10 @@ export const getPizzaVisualized = createSelector(
 );
 
 export const getAllPizzas = createSelector(
-  getPizzasEntities,
-  (entities: { [id: number]: Pizza }) => {
-    return Object.keys(entities).map((id) => entities[parseInt(id, 10)]);
-  },
+  getPizzaState,
+  selectAll,
 );
+
 export const getPizzasLoaded = createSelector(
   getPizzaState,
   fromPizzas.getPizzasLoaded,

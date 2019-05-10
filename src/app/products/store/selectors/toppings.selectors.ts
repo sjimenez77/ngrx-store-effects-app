@@ -6,6 +6,13 @@ import * as fromToppings from '../reducers/toppings.reducer';
 
 import { Topping } from '../../models/topping.model';
 
+export const {
+  selectAll: selectAllToppings,
+  selectEntities: selectToppingsEntities,
+  selectIds: selectToppingsIds,
+  selectTotal: selectTotalToppings,
+} = fromToppings.adapter.getSelectors();
+
 export const getToppingsState = createSelector(
   fromFeature.getProductsState,
   (state: fromFeature.ProductsState) => state.toppings,
@@ -13,7 +20,7 @@ export const getToppingsState = createSelector(
 
 export const getToppingEntities = createSelector(
   getToppingsState,
-  fromToppings.getToppingEntities,
+  selectToppingsEntities,
 );
 
 export const getSelectedToppings = createSelector(
@@ -22,10 +29,8 @@ export const getSelectedToppings = createSelector(
 );
 
 export const getAllToppings = createSelector(
-  getToppingEntities,
-  (entities) => {
-    return Object.keys(entities).map((id) => entities[parseInt(id, 10)]);
-  },
+  getToppingsState,
+  selectAllToppings,
 );
 
 export const getToppingsLoaded = createSelector(
