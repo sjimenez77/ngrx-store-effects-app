@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, empty, of } from 'rxjs';
@@ -10,22 +11,8 @@ import { ToppingsService } from '../../services/toppings.service';
 import * as fromEffects from './toppings.effect';
 import * as fromActions from '../actions/toppings.action';
 
-export class TestActions extends Actions {
-  constructor() {
-    super(empty());
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
-
 describe('ToppingsEffects', () => {
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let service: ToppingsService;
   let effects: fromEffects.ToppingsEffects;
 
@@ -41,7 +28,7 @@ describe('ToppingsEffects', () => {
       providers: [
         ToppingsService,
         fromEffects.ToppingsEffects,
-        { provide: Actions, useFactory: getActions },
+        provideMockActions(() => actions$),
       ],
     });
 
@@ -57,7 +44,7 @@ describe('ToppingsEffects', () => {
       const action = new fromActions.LoadToppings();
       const completion = new fromActions.LoadToppingsSuccess(toppings);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadToppings$).toBeObservable(expected);

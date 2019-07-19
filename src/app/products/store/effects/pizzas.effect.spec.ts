@@ -1,31 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { Actions } from '@ngrx/effects';
-
-import { hot, cold } from 'jasmine-marbles';
-import { Observable, empty, of } from 'rxjs';
-
+import { provideMockActions } from '@ngrx/effects/testing';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
 import { PizzasService } from '../../services/pizzas.service';
-import * as fromEffects from './pizzas.effect';
 import * as fromActions from '../actions/pizzas.action';
-
-export class TestActions extends Actions {
-  constructor() {
-    super(empty());
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
+import * as fromEffects from './pizzas.effect';
 
 describe('PizzasEffects', () => {
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let service: PizzasService;
   let effects: fromEffects.PizzasEffects;
 
@@ -56,7 +40,7 @@ describe('PizzasEffects', () => {
       providers: [
         PizzasService,
         fromEffects.PizzasEffects,
-        { provide: Actions, useFactory: getActions },
+        provideMockActions(() => actions$),
       ],
     });
 
@@ -75,7 +59,7 @@ describe('PizzasEffects', () => {
       const action = new fromActions.LoadPizzas();
       const completion = new fromActions.LoadPizzasSuccess(pizzas);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadPizzas$).toBeObservable(expected);
@@ -87,7 +71,7 @@ describe('PizzasEffects', () => {
       const action = new fromActions.CreatePizza(pizzas[0]);
       const completion = new fromActions.CreatePizzaSuccess(pizzas[0]);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-c', { c: completion });
 
       expect(effects.createPizza$).toBeObservable(expected);
@@ -99,7 +83,7 @@ describe('PizzasEffects', () => {
       const action = new fromActions.UpdatePizza(pizzas[0]);
       const completion = new fromActions.UpdatePizzaSuccess(pizzas[0]);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-c', { c: completion });
 
       expect(effects.updatePizza$).toBeObservable(expected);
@@ -111,7 +95,7 @@ describe('PizzasEffects', () => {
       const action = new fromActions.RemovePizza(pizzas[0]);
       const completion = new fromActions.RemovePizzaSuccess(pizzas[0]);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-c', { c: completion });
 
       expect(effects.removePizza$).toBeObservable(expected);
