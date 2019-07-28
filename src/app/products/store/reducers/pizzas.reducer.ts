@@ -2,6 +2,8 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as fromPizzas from '../actions/pizzas.action';
 import { Pizza } from '../../models/pizza.model';
+import { createReducer, on } from '@ngrx/store';
+import { state } from '@angular/animations';
 
 export interface PizzaState extends EntityState<Pizza> {
   loaded: boolean;
@@ -15,39 +17,34 @@ export const initialState: PizzaState = adapter.getInitialState({
   loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: fromPizzas.PizzasAction,
-): PizzaState {
-  switch (action.type) {
-    case fromPizzas.LOAD_PIZZAS: {
-      return { ...state, loading: true };
-    }
-
-    case fromPizzas.LOAD_PIZZAS_SUCCESS: {
-      const pizzas = action.payload;
-      state = { ...state, loading: false, loaded: true };
-      return adapter.addAll(pizzas, state);
-    }
-
-    case fromPizzas.LOAD_PIZZAS_FAIL: {
-      return { ...state, loading: false, loaded: false };
-    }
-
-    case fromPizzas.UPDATE_PIZZA_SUCCESS:
-    case fromPizzas.CREATE_PIZZA_SUCCESS: {
-      const pizza = action.payload;
-      return adapter.upsertOne(pizza, state);
-    }
-
-    case fromPizzas.REMOVE_PIZZA_SUCCESS: {
-      const pizza = action.payload;
-      return adapter.removeOne(pizza.id, state);
-    }
-  }
-
-  return state;
-}
+export const reducer = createReducer(
+  initialState,
+  on(fromPizzas.loadPizzas, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(fromPizzas.loadPizzasSuccess, (state, { pizzas }) => {
+    return adapter.addAll(pizzas, {
+      ...state,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(fromPizzas.loadPizzasFail, (state) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+  })),
+  on(fromPizzas.createPizzaSuccess, (state, { pizza }) => {
+    return adapter.upsertOne(pizza, state);
+  }),
+  on(fromPizzas.updatePizzaSuccess, (state, { pizza }) => {
+    return adapter.upsertOne(pizza, state);
+  }),
+  on(fromPizzas.removePizzaSuccess, (state, { pizza }) => {
+    return adapter.removeOne(pizza.id, state);
+  }),
+);
 
 export const getPizzasEntities = (state: PizzaState) => state.entities;
 export const getPizzasLoading = (state: PizzaState) => state.loading;

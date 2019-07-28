@@ -26,10 +26,20 @@ describe('ToppingsReducer Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromReducers.reducers),
-        }),
+        StoreModule.forRoot(
+          {
+            ...fromRoot.reducers,
+            products: combineReducers(fromReducers.reducers),
+          },
+          {
+            runtimeChecks: {
+              strictStateImmutability: true,
+              strictActionImmutability: true,
+              strictStateSerializability: true,
+              strictActionSerializability: true,
+            },
+          },
+        ),
       ],
     });
 
@@ -48,7 +58,7 @@ describe('ToppingsReducer Selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadToppingsSuccess(toppings));
+      store.dispatch(fromActions.loadToppingsSuccess({ toppings }));
 
       expect(result).toEqual(entities);
     });
@@ -62,11 +72,11 @@ describe('ToppingsReducer Selectors', () => {
         .select(fromSelectors.getSelectedToppings)
         .subscribe((value) => (result = value));
 
-      store.dispatch(new fromActions.LoadToppingsSuccess(toppings));
+      store.dispatch(fromActions.loadToppingsSuccess({ toppings }));
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.VisualiseToppings([1, 3]));
+      store.dispatch(fromActions.visualiseToppings({ ids: [1, 3] }));
 
       expect(result).toEqual([1, 3]);
     });
@@ -82,7 +92,7 @@ describe('ToppingsReducer Selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadToppingsSuccess(toppings));
+      store.dispatch(fromActions.loadToppingsSuccess({ toppings }));
 
       expect(result).toEqual(toppings);
     });
@@ -98,7 +108,7 @@ describe('ToppingsReducer Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadToppingsSuccess([]));
+      store.dispatch(fromActions.loadToppingsSuccess({ toppings: [] }));
 
       expect(result).toEqual(true);
     });
@@ -114,7 +124,7 @@ describe('ToppingsReducer Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadToppings());
+      store.dispatch(fromActions.loadToppings());
 
       expect(result).toEqual(true);
     });

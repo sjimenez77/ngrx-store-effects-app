@@ -55,10 +55,20 @@ describe('Pizzas Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromReducers.reducers),
-        }),
+        StoreModule.forRoot(
+          {
+            ...fromRoot.reducers,
+            products: combineReducers(fromReducers.reducers),
+          },
+          {
+            runtimeChecks: {
+              strictStateImmutability: true,
+              strictActionImmutability: true,
+              strictStateSerializability: true,
+              strictActionSerializability: true,
+            },
+          },
+        ),
       ],
     });
 
@@ -80,7 +90,7 @@ describe('Pizzas Selectors', () => {
         loading: false,
       });
 
-      store.dispatch(new fromActions.LoadPizzasSuccess(pizzas));
+      store.dispatch(fromActions.loadPizzasSuccess({ pizzas }));
 
       expect(result).toEqual({
         ids: [1, 2, 3],
@@ -101,7 +111,7 @@ describe('Pizzas Selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadPizzasSuccess(pizzas));
+      store.dispatch(fromActions.loadPizzasSuccess({ pizzas }));
 
       expect(result).toEqual(entities);
     });
@@ -112,7 +122,7 @@ describe('Pizzas Selectors', () => {
       let result;
       let params;
 
-      store.dispatch(new fromActions.LoadPizzasSuccess(pizzas));
+      store.dispatch(fromActions.loadPizzasSuccess({ pizzas }));
 
       store.dispatch({
         type: ROUTER_NAVIGATION,
@@ -159,9 +169,9 @@ describe('Pizzas Selectors', () => {
         },
       ];
 
-      store.dispatch(new fromActions.LoadPizzasSuccess(pizzas));
-      store.dispatch(new fromActions.LoadToppingsSuccess(toppings));
-      store.dispatch(new fromActions.VisualiseToppings([11, 9, 6]));
+      store.dispatch(fromActions.loadPizzasSuccess({ pizzas }));
+      store.dispatch(fromActions.loadToppingsSuccess({ toppings }));
+      store.dispatch(fromActions.visualiseToppings({ ids: [11, 9, 6] }));
 
       store.dispatch({
         type: ROUTER_NAVIGATION,
@@ -195,7 +205,7 @@ describe('Pizzas Selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new fromActions.LoadPizzasSuccess(pizzas));
+      store.dispatch(fromActions.loadPizzasSuccess({ pizzas }));
 
       expect(result).toEqual(pizzas);
     });
@@ -211,7 +221,7 @@ describe('Pizzas Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadPizzasSuccess([]));
+      store.dispatch(fromActions.loadPizzasSuccess({ pizzas: [] }));
 
       expect(result).toEqual(true);
     });
@@ -227,7 +237,7 @@ describe('Pizzas Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadPizzas());
+      store.dispatch(fromActions.loadPizzas());
 
       expect(result).toEqual(true);
     });

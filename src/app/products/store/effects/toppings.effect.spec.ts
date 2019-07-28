@@ -41,8 +41,8 @@ describe('ToppingsEffects', () => {
 
   describe('loadToppings$', () => {
     it('should return a collection from LoadToppingsSuccess', () => {
-      const action = new fromActions.LoadToppings();
-      const completion = new fromActions.LoadToppingsSuccess(toppings);
+      const action = fromActions.loadToppings();
+      const completion = fromActions.loadToppingsSuccess({ toppings });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

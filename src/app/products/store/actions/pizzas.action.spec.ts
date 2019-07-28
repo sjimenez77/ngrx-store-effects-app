@@ -4,7 +4,7 @@ describe('Pizzas Actions', () => {
   describe('LoadPizzas Actions', () => {
     describe('LoadPizzas', () => {
       it('should create an action', () => {
-        const action = new fromPizzas.LoadPizzas();
+        const action = fromPizzas.loadPizzas();
 
         expect({ ...action }).toEqual({
           type: fromPizzas.LOAD_PIZZAS,
@@ -15,11 +15,11 @@ describe('Pizzas Actions', () => {
     describe('LoadPizzasFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromPizzas.LoadPizzasFail(payload);
+        const action = fromPizzas.loadPizzasFail({ error: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.LOAD_PIZZAS_FAIL,
-          payload,
+          error: payload,
         });
       });
     });
@@ -46,11 +46,11 @@ describe('Pizzas Actions', () => {
             ],
           },
         ];
-        const action = new fromPizzas.LoadPizzasSuccess(payload);
+        const action = fromPizzas.loadPizzasSuccess({ pizzas: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.LOAD_PIZZAS_SUCCESS,
-          payload,
+          pizzas: payload,
         });
       });
     });
@@ -67,11 +67,11 @@ describe('Pizzas Actions', () => {
             { id: 3, name: 'basil' },
           ],
         };
-        const action = new fromPizzas.CreatePizza(payload);
+        const action = fromPizzas.createPizza({ pizza: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.CREATE_PIZZA,
-          payload,
+          pizza: payload,
         });
       });
     });
@@ -79,11 +79,11 @@ describe('Pizzas Actions', () => {
     describe('CreatePizzaFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Create Error' };
-        const action = new fromPizzas.CreatePizzaFail(payload);
+        const action = fromPizzas.createPizzaFail({ error: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.CREATE_PIZZA_FAIL,
-          payload,
+          error: payload,
         });
       });
     });
@@ -99,11 +99,11 @@ describe('Pizzas Actions', () => {
             { id: 3, name: 'basil' },
           ],
         };
-        const action = new fromPizzas.CreatePizzaSuccess(payload);
+        const action = fromPizzas.createPizzaSuccess({ pizza: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.CREATE_PIZZA_SUCCESS,
-          payload,
+          pizza: payload,
         });
       });
     });
@@ -121,11 +121,11 @@ describe('Pizzas Actions', () => {
             { id: 3, name: 'basil' },
           ],
         };
-        const action = new fromPizzas.UpdatePizza(payload);
+        const action = fromPizzas.updatePizza({ pizza: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.UPDATE_PIZZA,
-          payload,
+          pizza: payload,
         });
       });
     });
@@ -133,11 +133,11 @@ describe('Pizzas Actions', () => {
     describe('UpdatePizzaFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Update Error' };
-        const action = new fromPizzas.UpdatePizzaFail(payload);
+        const action = fromPizzas.updatePizzaFail({ error: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.UPDATE_PIZZA_FAIL,
-          payload,
+          error: payload,
         });
       });
     });
@@ -153,11 +153,11 @@ describe('Pizzas Actions', () => {
             { id: 3, name: 'basil' },
           ],
         };
-        const action = new fromPizzas.UpdatePizzaSuccess(payload);
+        const action = fromPizzas.updatePizzaSuccess({ pizza: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.UPDATE_PIZZA_SUCCESS,
-          payload,
+          pizza: payload,
         });
       });
     });
@@ -175,11 +175,11 @@ describe('Pizzas Actions', () => {
             { id: 3, name: 'basil' },
           ],
         };
-        const action = new fromPizzas.RemovePizza(payload);
+        const action = fromPizzas.removePizza({ pizza: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.REMOVE_PIZZA,
-          payload,
+          pizza: payload,
         });
       });
     });
@@ -187,11 +187,11 @@ describe('Pizzas Actions', () => {
     describe('RemovePizzaFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Remove Error' };
-        const action = new fromPizzas.RemovePizzaFail(payload);
+        const action = fromPizzas.removePizzaFail({ error: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.REMOVE_PIZZA_FAIL,
-          payload,
+          error: payload,
         });
       });
     });
@@ -207,11 +207,11 @@ describe('Pizzas Actions', () => {
             { id: 3, name: 'basil' },
           ],
         };
-        const action = new fromPizzas.RemovePizzaSuccess(payload);
+        const action = fromPizzas.removePizzaSuccess({ pizza: payload });
 
         expect({ ...action }).toEqual({
           type: fromPizzas.REMOVE_PIZZA_SUCCESS,
-          payload,
+          pizza: payload,
         });
       });
     });

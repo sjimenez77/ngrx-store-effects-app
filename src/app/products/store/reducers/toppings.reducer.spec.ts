@@ -16,7 +16,7 @@ describe('ToppingsReducer', () => {
   describe('LOAD_TOPPINGS action', () => {
     it('should set loading to true', () => {
       const { initialState } = fromToppings;
-      const action = new fromActions.LoadToppings();
+      const action = fromActions.loadToppings();
       const state = fromToppings.reducer(initialState, action);
 
       expect(state.loading).toEqual(true);
@@ -38,7 +38,7 @@ describe('ToppingsReducer', () => {
         3: toppings[2],
       };
       const { initialState } = fromToppings;
-      const action = new fromActions.LoadToppingsSuccess(toppings);
+      const action = fromActions.loadToppingsSuccess({ toppings });
       const state = fromToppings.reducer(initialState, action);
 
       expect(state.loaded).toEqual(true);
@@ -50,7 +50,7 @@ describe('ToppingsReducer', () => {
   describe('LOAD_TOPPINGS_FAIL action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromToppings;
-      const action = new fromActions.LoadToppingsFail({});
+      const action = fromActions.loadToppingsFail({ error: 'Error' });
       const state = fromToppings.reducer(initialState, action);
 
       expect(state).toEqual(initialState);
@@ -58,7 +58,7 @@ describe('ToppingsReducer', () => {
     it('should return the previous state', () => {
       const { initialState } = fromToppings;
       const previousState = { ...initialState, loading: true };
-      const action = new fromActions.LoadToppingsFail({});
+      const action = fromActions.loadToppingsFail({ error: 'Error' });
       const state = fromToppings.reducer(previousState, action);
       expect(state).toEqual(initialState);
     });
@@ -67,7 +67,7 @@ describe('ToppingsReducer', () => {
   describe('VISUALISE_TOPPINGS action', () => {
     it('should set an array of number ids', () => {
       const { initialState } = fromToppings;
-      const action = new fromActions.VisualiseToppings([1, 5, 9]);
+      const action = fromActions.visualiseToppings({ ids: [1, 5, 9] });
       const state = fromToppings.reducer(initialState, action);
 
       expect(state.selectedToppings).toEqual([1, 5, 9]);

@@ -41,7 +41,7 @@ export class ProductItemComponent implements OnInit {
         const toppings = pizzaExists
           ? pizza.toppings.map((topping) => topping.id)
           : [];
-        this.store.dispatch(new fromStore.VisualiseToppings(toppings));
+        this.store.dispatch(fromStore.visualiseToppings({ ids: toppings }));
       }),
     );
     this.toppings$ = this.store.select(fromStore.getAllToppings);
@@ -49,21 +49,21 @@ export class ProductItemComponent implements OnInit {
   }
 
   onSelect(event: number[]) {
-    this.store.dispatch(new fromStore.VisualiseToppings(event));
+    this.store.dispatch(fromStore.visualiseToppings({ ids: event }));
   }
 
   onCreate(event: Pizza) {
-    this.store.dispatch(new fromStore.CreatePizza(event));
+    this.store.dispatch(fromStore.createPizza({ pizza: event }));
   }
 
   onUpdate(event: Pizza) {
-    this.store.dispatch(new fromStore.UpdatePizza(event));
+    this.store.dispatch(fromStore.updatePizza({ pizza: event }));
   }
 
   onRemove(event: Pizza) {
     const remove = window.confirm('Are you sure?');
     if (remove) {
-      this.store.dispatch(new fromStore.RemovePizza(event));
+      this.store.dispatch(fromStore.removePizza({ pizza: event }));
     }
   }
 }

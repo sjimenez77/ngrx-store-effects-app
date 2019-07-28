@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { PizzasService } from '../../services/pizzas.service';
 import * as fromActions from '../actions/pizzas.action';
 import * as fromEffects from './pizzas.effect';
+import { Pizza } from '../../models/pizza.model';
 
 describe('PizzasEffects', () => {
   let actions$: Observable<any>;
@@ -56,8 +57,8 @@ describe('PizzasEffects', () => {
 
   describe('loadPizzas$', () => {
     it('should return a collection from LoadPizzasSuccess', () => {
-      const action = new fromActions.LoadPizzas();
-      const completion = new fromActions.LoadPizzasSuccess(pizzas);
+      const action = fromActions.loadPizzas();
+      const completion = fromActions.loadPizzasSuccess({ pizzas: pizzas });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -68,8 +69,8 @@ describe('PizzasEffects', () => {
 
   describe('createPizza$', () => {
     it('should work', () => {
-      const action = new fromActions.CreatePizza(pizzas[0]);
-      const completion = new fromActions.CreatePizzaSuccess(pizzas[0]);
+      const action = fromActions.createPizza({ pizza: pizzas[0] });
+      const completion = fromActions.createPizzaSuccess({ pizza: pizzas[0] });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-c', { c: completion });
@@ -80,8 +81,8 @@ describe('PizzasEffects', () => {
 
   describe('updatePizza$', () => {
     it('should work', () => {
-      const action = new fromActions.UpdatePizza(pizzas[0]);
-      const completion = new fromActions.UpdatePizzaSuccess(pizzas[0]);
+      const action = fromActions.updatePizza({ pizza: pizzas[0] });
+      const completion = fromActions.updatePizzaSuccess({ pizza: pizzas[0] });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-c', { c: completion });
@@ -92,8 +93,8 @@ describe('PizzasEffects', () => {
 
   describe('removePizza$', () => {
     it('should work', () => {
-      const action = new fromActions.RemovePizza(pizzas[0]);
-      const completion = new fromActions.RemovePizzaSuccess(pizzas[0]);
+      const action = fromActions.removePizza({ pizza: pizzas[0] });
+      const completion = fromActions.removePizzaSuccess({ pizza: pizzas[0] });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-c', { c: completion });

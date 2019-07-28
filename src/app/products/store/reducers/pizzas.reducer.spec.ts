@@ -16,7 +16,7 @@ describe('PizzasReducer', () => {
   describe('LOAD_PIZZAS action', () => {
     it('should set loading to true', () => {
       const { initialState } = fromPizzas;
-      const action = new fromActions.LoadPizzas();
+      const action = fromActions.loadPizzas();
       const state = fromPizzas.reducer(initialState, action);
 
       expect(state.loading).toEqual(true);
@@ -36,7 +36,7 @@ describe('PizzasReducer', () => {
         2: pizzas[1],
       };
       const { initialState } = fromPizzas;
-      const action = new fromActions.LoadPizzasSuccess(pizzas);
+      const action = fromActions.loadPizzasSuccess({ pizzas });
       const state = fromPizzas.reducer(initialState, action);
 
       expect(state.loaded).toEqual(true);
@@ -48,7 +48,7 @@ describe('PizzasReducer', () => {
   describe('LOAD_PIZZAS_FAIL action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromPizzas;
-      const action = new fromActions.LoadPizzasFail({});
+      const action = fromActions.loadPizzasFail({ error: 'Error' });
       const state = fromPizzas.reducer(initialState, action);
 
       expect(state).toEqual(initialState);
@@ -57,7 +57,7 @@ describe('PizzasReducer', () => {
     it('should return the previous state', () => {
       const { initialState } = fromPizzas;
       const previousState = { ...initialState, loading: true };
-      const action = new fromActions.LoadPizzasFail({});
+      const action = fromActions.loadPizzasFail({ error: 'Error' });
       const state = fromPizzas.reducer(previousState, action);
 
       expect(state).toEqual(initialState);
@@ -81,7 +81,7 @@ describe('PizzasReducer', () => {
       };
       const { initialState } = fromPizzas;
       const previousState = { ...initialState, entities };
-      const action = new fromActions.CreatePizzaSuccess(newPizza);
+      const action = fromActions.createPizzaSuccess({ pizza: newPizza });
       const state = fromPizzas.reducer(previousState, action);
 
       expect(Object.keys(state.entities).length).toEqual(3);
@@ -106,7 +106,7 @@ describe('PizzasReducer', () => {
       };
       const { initialState } = fromPizzas;
       const previousState = { ...initialState, entities };
-      const action = new fromActions.UpdatePizzaSuccess(updatedPizza);
+      const action = fromActions.updatePizzaSuccess({ pizza: updatedPizza });
       const state = fromPizzas.reducer(previousState, action);
 
       expect(Object.keys(state.entities).length).toEqual(2);
@@ -126,7 +126,7 @@ describe('PizzasReducer', () => {
       };
       const { initialState } = fromPizzas;
       const previousState = { ...initialState, entities };
-      const action = new fromActions.RemovePizzaSuccess(pizzas[0]);
+      const action = fromActions.removePizzaSuccess({ pizza: pizzas[0] });
       const state = fromPizzas.reducer(previousState, action);
 
       expect(Object.keys(state.entities).length).toEqual(1);
