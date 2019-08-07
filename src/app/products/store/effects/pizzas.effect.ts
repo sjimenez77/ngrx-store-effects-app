@@ -75,8 +75,8 @@ export class PizzasEffects {
   handlePizzaSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
-        pizzasActions.UPDATE_PIZZA_SUCCESS,
-        pizzasActions.REMOVE_PIZZA_SUCCESS,
+        pizzasActions.updatePizzaSuccess,
+        pizzasActions.removePizzaSuccess,
       ),
       map(({ pizza }) => {
         return fromRoot.go({

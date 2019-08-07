@@ -3,7 +3,6 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as fromPizzas from '../actions/pizzas.action';
 import { Pizza } from '../../models/pizza.model';
 import { createReducer, on } from '@ngrx/store';
-import { state } from '@angular/animations';
 
 export interface PizzaState extends EntityState<Pizza> {
   loaded: boolean;
